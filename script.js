@@ -6,6 +6,7 @@ function ease(el, key, target, duration) {
         endWord = words.indexOf(target.toLowerCase()),
         caser = getCaser(target);
     console.log(startWord, endWord)
+    console.log(getHighPoint(startWord, endWord))
     function n() {
         requestAnimationFrame(() => {
             const now = Date.now() - start;
@@ -36,5 +37,23 @@ function ease(el, key, target, duration) {
         function u(x) { return x.toUpperCase(); }
         function l(x) { return x.toLowerCase(); }
         function s(x) { return x[0].toUpperCase() + x.substr(1).toLowerCase(); }
+    }
+
+    function getHighPoint(start, end, range = 0.1){
+        let y = (end-start)*range,
+            x1 = ~~(start+((end-start)*(1-range)*0.5)),
+            x2 = ~~(x1+y),
+            list = words.slice(x1,x2),
+            max = 0,
+            maxLen = 0;
+        // There's probably a fancier n better way to do this but idk
+        for(let i in list){
+            if(list[i].length > maxLen){
+                max = i;
+                maxLen = list[i].length;
+            }
+        }
+        max = +max;
+        return x1+max;
     }
 }
