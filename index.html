@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Word Easing Demo</title>
+    <script type="text/javascript" src="words.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <style type="text/css">
         * { font-family: Lato, Arial, sans-serif }
@@ -13,7 +14,7 @@
     <script type="text/javascript">
         const checkbox = document.getElementById('checkbox');
         checkbox.addEventListener('click', e => {
-            ease(label, 'innerHTML', 
+            ease(label, 'innerHTML',
                 checkbox.checked ? 'Yes' : 'No',
                 1500);
         });
