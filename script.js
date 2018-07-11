@@ -68,7 +68,6 @@ function ease(el, key, target, duration) {
             if(words[l].length == length) break;
             k++;
         }
-        console.log(words[l]);
         return l;
     }
     function getWord(start, end, t, d){
