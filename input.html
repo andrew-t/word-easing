@@ -18,16 +18,7 @@
 			.then(w => register('first', w.firstNames));
 		fetch('https://raw.githubusercontent.com/dariusk/corpora/master/data/humans/lastNames.json')
 			.then(res => res.json())
-			.then(w => register('last', w.lastNames));
-
-		function b(res) {
-			console.log(res)
-			return new Promise(resolve => {
-				let d = '';
-				res.body.on('data', c => d += c);
-				res.body.on('end', () => resolve(d));
-			});
-		}
+			.then(w => register('last', w.lastNames.sort()));
 	</script>
     <style type="text/css">
         * { font-family: Lato, Arial, sans-serif }
