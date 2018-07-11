@@ -11,13 +11,18 @@ function ease(el, key, target, duration) {
     function n() {
         requestAnimationFrame(() => {
             const now = Date.now() - start;
+            console.log(words[getWord(
+                startWord,
+                endWord,
+                now,
+                duration)]);
             if (now >= duration)
                 el[key] = target;
             else {
-                el[key] = caser(words[~~easeInOut(
-                    now,
+                el[key] = caser(words[getWord(
                     startWord,
-                    endWord - startWord,
+                    endWord,
+                    now,
                     duration)]);
                 n();
             }
@@ -61,5 +66,21 @@ function ease(el, key, target, duration) {
         let list = words.slice(start,end);
         list.sort((a,b)=>{return (length-a.length)-(length-b.length)});
         return words.indexOf(list[0]);
+    }
+    function getWord(start, end, t, d){
+        let mid = getHighPoint(start, end),
+            height = words[mid].length,
+            y1 = words[start].length,
+            y2 = words[end].length,
+            range = end - start,
+            divs = Math.max(range / d,1),
+            x1 = start + ~~(t * divs),
+            x2 = ~~(x1 + divs),
+            length = easeInOut(
+                t,
+                t<=d/2 ? y1 : height,
+                t<=d/2 ? height - y1 : y2 - height
+            );
+        return getClosestWord(x1,x2,length);
     }
 }
