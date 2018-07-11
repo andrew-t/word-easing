@@ -11,11 +11,6 @@ function ease(el, key, target, duration) {
     function n() {
         requestAnimationFrame(() => {
             const now = Date.now() - start;
-            console.log(words[getWord(
-                startWord,
-                endWord,
-                now,
-                duration)]);
             if (now >= duration)
                 el[key] = target;
             else {
@@ -63,9 +58,19 @@ function ease(el, key, target, duration) {
         return x1+max;
     }
     function getClosestWord(start, end, length){
-        let list = words.slice(start,end);
-        list.sort((a,b)=>{return (length-a.length)-(length-b.length)});
-        return words.indexOf(list[0]);
+        length = ~~length;
+        let i = words.length-1,
+            j = start + ~~((end-start)/2),
+            k = 0,
+            l = j;
+        while(j+(k/2)<i){
+            l = Math.min(j+k,i);
+            if(words[l].length == length) break;
+            l = Math.max(j-k,0);
+            if(words[l].length == length) break;
+            k++;
+        }
+        return l;
     }
     function getWord(start, end, t, d){
         let mid = getHighPoint(start, end),
@@ -76,11 +81,13 @@ function ease(el, key, target, duration) {
             divs = Math.max(range / d,1),
             x1 = start + ~~(t * divs),
             x2 = ~~(x1 + divs),
-            length = easeInOut(
+            length = ~~easeInOut(
                 t,
                 t<=d/2 ? y1 : height,
-                t<=d/2 ? height - y1 : y2 - height
+                t<=d/2 ? height - y1 : y2 - height,
+                d
             );
+        console.log(length, words[getClosestWord(x1,x2,length)]);
         return getClosestWord(x1,x2,length);
     }
 }
