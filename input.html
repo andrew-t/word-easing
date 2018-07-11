@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Input Sliders</title>
+	<script type="text/javascript">
+		function register(id, words) {
+			const el = document.getElementById(id),
+				label = document.querySelector(`[for=${id}]`),
+				labelText = label.innerHTML + ': ';
+			el.setAttribute('min', 0);
+			el.setAttribute('max', words.length - 1);
+			el.addEventListener('input', e =>
+				label.innerHTML = labelText + words[el.value]);
+		}
+
+		fetch('https://raw.githubusercontent.com/dariusk/corpora/master/data/humans/firstNames.json')
+			.then(res => res.json())
+			.then(w => register('first', w.firstNames));
+		fetch('https://raw.githubusercontent.com/dariusk/corpora/master/data/humans/lastNames.json')
+			.then(res => res.json())
+			.then(w => register('last', w.lastNames));
+
+		function b(res) {
+			console.log(res)
+			return new Promise(resolve => {
+				let d = '';
+				res.body.on('data', c => d += c);
+				res.body.on('end', () => resolve(d));
+			});
+		}
+	</script>
+    <style type="text/css">
+        * { font-family: Lato, Arial, sans-serif }
+    </style>
+</head>
+<body>
+	<label for="first">First name</label>
+	<input id="first" type="range"><br>
+	<label for="last">Last name</label>
+	<input type="range" id="last">
+</body>
+</html>
