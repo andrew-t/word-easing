@@ -7,6 +7,7 @@ function ease(el, key, target, duration) {
         caser = getCaser(target);
     console.log(startWord, endWord)
     console.log(getHighPoint(startWord, endWord))
+    console.log(getClosestWord(1000, 1030, 15))
     function n() {
         requestAnimationFrame(() => {
             const now = Date.now() - start;
@@ -55,5 +56,10 @@ function ease(el, key, target, duration) {
         }
         max = +max;
         return x1+max;
+    }
+    function getClosestWord(start, end, length){
+        let list = words.slice(start,end);
+        list.sort((a,b)=>{return (length-a.length)-(length-b.length)});
+        return words.indexOf(list[0]);
     }
 }
