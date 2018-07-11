@@ -57,10 +57,10 @@ function ease(el, key, target, duration) {
         max = +max;
         return x1+max;
     }
-    function getClosestWord(start, end, length){
+    function getClosestWord(start, length){
         length = ~~length;
         let i = words.length-1,
-            j = start + ~~((end-start)/2),
+            j = start,
             k = 0,
             l = j;
         while(j+(k/2)<i){
@@ -79,15 +79,13 @@ function ease(el, key, target, duration) {
             y2 = words[end].length,
             range = end - start,
             divs = Math.max(range / d,1),
-            x1 = start + ~~(t * divs),
-            x2 = ~~(x1 + divs),
+            x1 = Math.min(start + ~~((t+0.5) * divs),words.length-1),
             length = ~~easeInOut(
                 t,
                 t<=d/2 ? y1 : height,
                 t<=d/2 ? height - y1 : y2 - height,
                 d
             );
-        console.log(length, words[getClosestWord(x1,x2,length)]);
-        return getClosestWord(x1,x2,length);
+        return Math.min(end,getClosestWord(x1,length));
     }
 }
